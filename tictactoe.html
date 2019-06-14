@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    .box {
+        border: 2px solid black;
+        width: 100px;
+        height: 100px;
+        float: left;
+        text-align: center;
+        font-size: 80px;
+        vertical-align: middle;
+        line-height: 100px;
+    }
+    div :nth-child(3n+1) {
+        clear: both;
+    }
+    </style>
+</head>
+<body>
+<div id="board">
+    <div id="0" class="box"></div>
+    <div id="1" class="box"></div>
+    <div id="2" class="box"></div>
+    <div id="3" class="box"></div>
+    <div id="4" class="box"></div>
+    <div id="5" class="box"></div>
+    <div id="6" class="box"></div>
+    <div id="7" class="box"></div>
+    <div id="8" class="box"></div>
+</div>
+
+
+<script>
+board = ["","","","","","","","",""]
+let status=true
+let game = true
+boardInput = document.getElementById("board")
+boardInput.onclick = function(event){
+    if (game == true){
+        let square=event.target
+        if (square.innerHTML == "X" || square.innerHTML == "O"){
+        }
+        else {
+            if (status){
+                square.innerHTML="X"
+                board[square.id]="X"
+            }
+            else {
+                square.innerHTML="O"
+                board[square.id]="O"
+            }
+            status = !status
+        }
+        if (check_win() || check_draw()){
+            game = false
+        }
+    }
+    else {
+        return false
+    }
+}
+
+start = document.createElement("button")
+start.innerText = "Start game"
+document.body.append(start)
+start.onclick = function(){
+    board = ["","","","","","","","",""]
+    for (i=0;i<board.length;i++){
+        document.getElementById(i).innerHTML = ""
+    }
+    game = true
+}
+
+function check_win(){
+    let combo = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]]
+    for (e of combo){
+        if (board[e[0]] && board[e[0]] == board[e[1]] && board[e[1]] == board[e[2]]){
+            // alert("You WIN!")
+            let win = document.createElement("h1")
+            win.innerText = board[e[0]] + " has WON"
+            document.body.append(win)
+            return true
+        }
+    }
+}
+
+function check_draw(){
+    if (board[0] &&
+    board[1] &&
+    board[2] &&
+    board[3] &&
+    board[4] &&
+    board[5] &&
+    board[6] &&
+    board[7] &&
+    board[8]){
+        // alert("No one is Winning!")
+        let draw = document.createElement("h1")
+        draw.innerText = "no one is winning"
+        document.body.append(draw)
+        return true
+    }
+}
+</script>
+</body>
+</html>
